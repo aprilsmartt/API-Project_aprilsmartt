@@ -1,3 +1,4 @@
+// require('dotenv').config(); // Load .env variables //! Not needed, fixed Model file for user... const ( Model, Validator ) ... added Validator after Model
 const config = require('./index');
 
 module.exports = {
