@@ -1,48 +1,20 @@
 // backend/routes/api/index.js
-const router = require("express").Router();
+const router = require('express').Router();
+const sessionRouter = require('./session.js');
+const usersRouter = require('./users.js');
 const { restoreUser } = require("../../utils/auth.js");
 
-// Connect restoreUser middleware to the API router
+//! Connect restoreUser middleware to the API router
   // If current user session is valid, set req.user to the user in the database
   // If current user session is not valid, set req.user to null
 router.use(restoreUser);
 
-// //! CODE FOR TESTING
-// router.post('/test', function(req, res) {
-//   res.json({ requestBody: req.body });
-//   });  
+router.use('/session', sessionRouter);
 
-//! File that will test the `setTokenCookie` function by getting the demo user and calling `setTokenCookie`.
-// GET /api/set-token-cookie
-const { setTokenCookie } = require('../../utils/auth.js');
-const { User } = require('../../db/models');// Connect restoreUser middleware to the API router
-// If current user session is valid, set req.user to the user in the database
-// If current user session is not valid, set req.user to null
+router.use('/users', usersRouter);
 
-  });
-  setTokenCookie(res, user);
-  return res.json({ user: user });
+router.post('/test', (req, res) => {
+  res.json({ requestBody: req.body });
 });
 
-// GET /api/restore-user
-router.get(
-  '/restore-user',
-  (req, res) => {
-    return res.json(req.user);
-  }
-);
-
-// GET /api/require-auth
-const { requireAuth } = require('../../utils/auth.js');
-router.get(
-  '/require-auth',
-  requireAuth,
-  (req, res) => {
-    return res.json(req.user);
-  }
-);
-
-
-
 module.exports = router;
-
